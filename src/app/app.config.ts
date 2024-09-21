@@ -6,11 +6,17 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { withNgxsReduxDevtoolsPlugin } from "@ngxs/devtools-plugin";
 import { withNgxsLoggerPlugin } from "@ngxs/logger-plugin";
 import { provideStore } from "@ngxs/store";
+import { GameState } from "./components/game/game.state";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideStore([], withNgxsReduxDevtoolsPlugin(), withNgxsLoggerPlugin()),
+    provideStore(
+      [GameState],
+      withNgxsReduxDevtoolsPlugin(),
+      withNgxsLoggerPlugin(),
+    ),
+    provideAnimationsAsync(),
   ],
 };

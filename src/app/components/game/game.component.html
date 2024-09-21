@@ -1,1 +1,8 @@
+<button mat-flat-button (click)="startRound()" data-testid="start-button">
+  Start
+</button>
+<app-game-counter
+  [round]="currentRound$ | async"
+  [score]="[]"
+></app-game-counter>
 <p>game works!</p>

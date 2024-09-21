@@ -1,0 +1,18 @@
+.round-tile {
+  border-bottom: 1px solid #000;
+  text-align: center;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.score-tiles {
+  display: flex;
+  .score-tile {
+    flex: auto;
+    text-align: center;
+    line-height: 2em;
+    .score {
+      font-size: 2em;
+    }
+  }
+}
