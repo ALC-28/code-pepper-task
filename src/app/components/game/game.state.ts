@@ -1,15 +1,24 @@
 import { Injectable } from "@angular/core";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { Card } from "./game.interface";
+import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
 import { ResourceType } from "./game.constants";
+import { CardService } from "../../services/card.service";
+import {
+  PeopleProperties,
+  StarhipsProperties,
+} from "../../services/card.interface";
 
 const stateName = "[Game]";
 
 export interface GameStateModel {
-  cards: Card[];
+  cards: (PeopleProperties | StarhipsProperties)[];
   round: number;
   resourceType: ResourceType;
+  availableResources: { [key: string]: number };
   score: number[];
+}
+
+export class GetAvailableResourcesAction {
+  static readonly type = `${stateName} Get available resources`;
 }
 
 export class NextRoundAction {
@@ -32,13 +41,27 @@ export class ChangeResourceTypeAction {
     cards: [],
     round: 0,
     resourceType: ResourceType.PEOPLE,
+    availableResources: {},
     score: [],
   },
 })
 @Injectable()
-export class GameState {
+export class GameState implements NgxsOnInit {
+  ngxsOnInit(ctx: StateContext<GameStateModel>) {
+    ctx.dispatch(new GetAvailableResourcesAction());
+  }
+
   @Selector()
-  static getCards(state: GameStateModel): Card[] {
+  static getAvailableResources(state: GameStateModel): {
+    [key: string]: number;
+  } {
+    return state.availableResources;
+  }
+
+  @Selector()
+  static getCards(
+    state: GameStateModel,
+  ): (PeopleProperties | StarhipsProperties)[] {
     return state.cards;
   }
 
@@ -57,14 +80,28 @@ export class GameState {
     return state.score;
   }
 
-  constructor() {}
+  constructor(private cardService: CardService) {}
+
+  @Action(GetAvailableResourcesAction)
+  async getAvailableResources(ctx: StateContext<GameStateModel>) {
+    const resources = await this.cardService.getTotalAvailableResources(
+      Object.values(ResourceType),
+    );
+    ctx.patchState({
+      availableResources: resources,
+    });
+  }
 
   @Action(NextRoundAction)
-  startNextRound(ctx: StateContext<GameStateModel>) {
-    // TODO: fetch cards
+  async startNextRound(ctx: StateContext<GameStateModel>) {
     const state = ctx.getState();
+    const cards = await this.cardService.getNewRandomCards(
+      state.resourceType,
+      state.availableResources[state.resourceType],
+    );
     ctx.patchState({
       round: state.round + 1,
+      cards,
     });
   }
 

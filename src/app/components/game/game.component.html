@@ -25,4 +25,18 @@
   [round]="currentRound$ | async"
   [score]="[]"
 ></app-game-counter>
-<p>game works!</p>
+
+<pre>{{ cards$ | async | json }}</pre>
+
+<!--<div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-chip-set>
+        <mat-chip></mat-chip>
+      </mat-chip-set>
+    </mat-card-content>
+  </mat-card>
+</div>-->

@@ -16,7 +16,9 @@
   "private": true,
   "jest": {
     "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": ["<rootDir>/setup-jest.ts"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/setup-jest.ts"
+    ]
   },
   "dependencies": {
     "@angular/animations": "^18.2.5",
@@ -32,6 +34,7 @@
     "@ngxs/devtools-plugin": "18.1.1",
     "@ngxs/logger-plugin": "18.1.1",
     "@ngxs/store": "^18.1.1",
+    "lodash": "^4.17.21",
     "rxjs": "~7.8.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
@@ -48,6 +51,7 @@
     "@angular/compiler-cli": "^18.2.5",
     "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.13",
+    "@types/lodash": "^4.17.9",
     "@typescript-eslint/eslint-plugin": "7.11.0",
     "@typescript-eslint/parser": "7.11.0",
     "cypress": "^13.14.2",
