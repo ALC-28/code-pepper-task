@@ -1,0 +1,11 @@
+.game-top-bar {
+  display: flex;
+  justify-content: space-between;
+
+  .resource-type-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    align-items: center;
+  }
+}

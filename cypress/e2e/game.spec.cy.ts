@@ -9,4 +9,11 @@ describe("Game spec", () => {
     cy.get("[data-testid=start-button]").click();
     cy.get("[data-testid=round-number]").should("have.text", "1");
   });
+
+  it("should change the resource type", () => {
+    cy.visit("/game");
+    const resourceButton = cy.get("[data-testid=resource-button]").eq(1);
+    resourceButton.click();
+    // TODO: match cards type
+  });
 });

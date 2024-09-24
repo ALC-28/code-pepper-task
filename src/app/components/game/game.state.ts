@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Card } from "./game.interface";
+import { ResourceType } from "./game.constants";
 
 const stateName = "[Game]";
 
 export interface GameStateModel {
   cards: Card[];
   round: number;
+  resourceType: ResourceType;
   score: number[];
 }
 
@@ -19,11 +21,17 @@ export class UpdateScoreAction {
   constructor(public payload: number[]) {}
 }
 
+export class ChangeResourceTypeAction {
+  static readonly type = `${stateName} Change resource type`;
+  constructor(public payload: ResourceType) {}
+}
+
 @State<GameStateModel>({
   name: "game",
   defaults: {
     cards: [],
     round: 0,
+    resourceType: ResourceType.PEOPLE,
     score: [],
   },
 })
@@ -37,6 +45,11 @@ export class GameState {
   @Selector()
   static getRound(state: GameStateModel): number {
     return state.round;
+  }
+
+  @Selector()
+  static getResourceType(state: GameStateModel): ResourceType {
+    return state.resourceType;
   }
 
   @Selector()
@@ -59,6 +72,16 @@ export class GameState {
   updateScore(ctx: StateContext<GameStateModel>, action: UpdateScoreAction) {
     ctx.patchState({
       score: action.payload,
+    });
+  }
+
+  @Action(ChangeResourceTypeAction)
+  changeResourceType(
+    ctx: StateContext<GameStateModel>,
+    action: ChangeResourceTypeAction,
+  ) {
+    ctx.patchState({
+      resourceType: action.payload,
     });
   }
 }

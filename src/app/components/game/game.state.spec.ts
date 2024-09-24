@@ -1,6 +1,12 @@
 import { TestBed } from "@angular/core/testing";
 import { provideStore, Store } from "@ngxs/store";
-import { GameState, NextRoundAction, UpdateScoreAction } from "./game.state";
+import {
+  ChangeResourceTypeAction,
+  GameState,
+  NextRoundAction,
+  UpdateScoreAction,
+} from "./game.state";
+import { ResourceType } from "./game.constants";
 
 describe("GameState", () => {
   let store: Store;
@@ -16,6 +22,7 @@ describe("GameState", () => {
       game: {
         cards: [],
         round: 0,
+        resourceType: ResourceType.PEOPLE,
         score: [],
       },
     });
@@ -31,5 +38,11 @@ describe("GameState", () => {
     store.dispatch(new UpdateScoreAction([1, 0]));
     const score = store.selectSnapshot(GameState.getScore);
     expect(score).toEqual([1, 0]);
+  });
+
+  it("should change the resource type", () => {
+    store.dispatch(new ChangeResourceTypeAction(ResourceType.STARSHIPS));
+    const resourceType = store.selectSnapshot(GameState.getResourceType);
+    expect(resourceType).toBe(ResourceType.STARSHIPS);
   });
 });

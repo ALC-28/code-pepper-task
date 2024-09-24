@@ -1,6 +1,26 @@
-<button mat-flat-button (click)="startRound()" data-testid="start-button">
-  Start
-</button>
+<div class="game-top-bar">
+  <button mat-flat-button (click)="startRound()" data-testid="start-button">
+    Play
+  </button>
+  <div class="resource-type-container">
+    <div>Resource type:</div>
+    <mat-button-toggle-group
+      name="resourceType"
+      [hideSingleSelectionIndicator]="false"
+      (change)="changeResourceType($event.value)"
+    >
+      @for (resourceType of resourceTypes; track resourceType) {
+        <mat-button-toggle
+          [value]="resourceType"
+          [checked]="resourceType === (currentResourceType$ | async)"
+          data-testid="resource-button"
+        >
+          {{ resourceType }}
+        </mat-button-toggle>
+      }
+    </mat-button-toggle-group>
+  </div>
+</div>
 <app-game-counter
   [round]="currentRound$ | async"
   [score]="[]"

@@ -3,7 +3,7 @@
     Round <span data-testid="round-number">{{ round || "&mdash;" }}</span>
   </div>
   <div class="score-tiles">
-    @for (playerWins of score; track playerWins; let i = $index) {
+    @for (playerWins of score; track $index; let i = $index) {
       <div class="score-tile">
         Player {{ i + 1 }}
         <br />
