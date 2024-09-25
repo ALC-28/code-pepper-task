@@ -8,12 +8,14 @@ describe("Game spec", () => {
     cy.visit("/game");
     cy.get("[data-testid=start-button]").click();
     cy.get("[data-testid=round-number]").should("have.text", "1");
+    cy.get("[data-testid=card]").should("have.length.above", 0);
   });
 
   it("should change the resource type", () => {
     cy.visit("/game");
     const resourceButton = cy.get("[data-testid=resource-button]").eq(1);
     resourceButton.click();
-    // TODO: match cards type
+    cy.get("[data-testid=start-button]").click();
+    cy.get("[data-testid=chip]").should("contain.text", "crew:");
   });
 });

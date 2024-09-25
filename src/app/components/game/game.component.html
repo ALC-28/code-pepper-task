@@ -26,34 +26,26 @@
   [score]="currentScore$ | async"
 ></app-game-counter>
 
-@for (card of cards$ | async; track $index) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ card.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-chip-set>
-        @for (prop of card | keyvalue; track prop.key) {
-          @if (prop.key !== "name" && prop.key !== "commonProperty") {
-            <mat-chip [class.selected]="prop.key === card.commonProperty">
-              {{ prop.key }}: {{ prop.value }}
-            </mat-chip>
+<div class="cards-container">
+  @for (card of cards$ | async; track $index) {
+    <mat-card data-testid="card">
+      <mat-card-header>
+        <mat-card-title>{{ card.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-chip-set>
+          @for (prop of card | keyvalue; track prop.key) {
+            @if (prop.key !== "name" && prop.key !== "commonProperty") {
+              <mat-chip
+                [class.selected]="prop.key === card.commonProperty"
+                data-testid="chip"
+              >
+                {{ prop.key }}: {{ prop.value }}
+              </mat-chip>
+            }
           }
-        }
-      </mat-chip-set>
-    </mat-card-content>
-  </mat-card>
-}
-
-<!--<div>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title></mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-chip-set>
-        <mat-chip></mat-chip>
-      </mat-chip-set>
-    </mat-card-content>
-  </mat-card>
-</div>-->
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

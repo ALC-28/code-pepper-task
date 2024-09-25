@@ -7,7 +7,7 @@ import {
   StarhipsPropertiesMapped,
 } from "../../services/card.interface";
 import { SetLoaderAction } from "../../app.state";
-import { max } from "lodash/fp";
+import { max, isNumber } from "lodash/fp";
 
 const stateName = "[Game]";
 
@@ -110,8 +110,9 @@ export class GameState implements NgxsOnInit {
         : CommonProperty.STARSHIPS;
     const currentRoundScore = cards
       .map((c) => {
-        return Number.isInteger(parseInt(c[commonProperty]))
-          ? parseInt(c[commonProperty])
+        const normalizedNumber = c[commonProperty].toString().replace(/,/g, "");
+        return isNumber(parseFloat(normalizedNumber))
+          ? parseFloat(c[commonProperty])
           : 0;
       })
       .map((cpValue, i, array) => {

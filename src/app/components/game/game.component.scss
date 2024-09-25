@@ -10,6 +10,13 @@
   }
 }
 
-mat-chip.selected {
-  background-color: blue;
+.cards-container {
+  display: flex;
+  gap: 1em;
+  mat-card-header {
+    margin-bottom: 1em;
+  }
+  mat-chip.selected {
+    background-color: lavender;
+  }
 }
