@@ -34,7 +34,7 @@
     <mat-card-content>
       <mat-chip-set>
         @for (prop of card | keyvalue; track prop.key) {
-          @if (prop.key !== "name") {
+          @if (prop.key !== "name" && prop.key !== "commonProperty") {
             <mat-chip [class.selected]="prop.key === card.commonProperty">
               {{ prop.key }}: {{ prop.value }}
             </mat-chip>

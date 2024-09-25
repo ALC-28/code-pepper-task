@@ -1,3 +1,6 @@
 <div class="app-container">
   <router-outlet />
 </div>
+@if (loading$ | async) {
+  <app-loader></app-loader>
+}

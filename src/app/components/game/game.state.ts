@@ -6,6 +6,7 @@ import {
   PeoplePropertiesMapped,
   StarhipsPropertiesMapped,
 } from "../../services/card.interface";
+import { SetLoaderAction } from "../../app.state";
 
 const stateName = "[Game]";
 
@@ -84,16 +85,19 @@ export class GameState implements NgxsOnInit {
 
   @Action(GetAvailableResourcesAction)
   async getAvailableResources(ctx: StateContext<GameStateModel>) {
+    ctx.dispatch(new SetLoaderAction(true));
     const resources = await this.cardService.getTotalAvailableResources(
       Object.values(ResourceType),
     );
     ctx.patchState({
       availableResources: resources,
     });
+    ctx.dispatch(new SetLoaderAction(false));
   }
 
   @Action(NextRoundAction)
   async startNextRound(ctx: StateContext<GameStateModel>) {
+    ctx.dispatch(new SetLoaderAction(true));
     const state = ctx.getState();
     const cards = await this.cardService.getNewRandomCards(
       state.resourceType,
@@ -107,6 +111,7 @@ export class GameState implements NgxsOnInit {
       round: state.round + 1,
       cards: cards.map((c) => ({ ...c, commonProperty })),
     });
+    ctx.dispatch(new SetLoaderAction(false));
   }
 
   @Action(UpdateScoreAction)

@@ -8,6 +8,7 @@ import { withNgxsLoggerPlugin } from "@ngxs/logger-plugin";
 import { provideStore } from "@ngxs/store";
 import { GameState } from "./components/game/game.state";
 import { provideHttpClient } from "@angular/common/http";
+import { AppState } from "./app.state";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     provideStore(
-      [GameState],
+      [AppState, GameState],
       withNgxsReduxDevtoolsPlugin(),
       withNgxsLoggerPlugin(),
     ),
