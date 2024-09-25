@@ -71,7 +71,10 @@ describe("GameState", () => {
   });
 
   it("should get new cards", async () => {
-    const cardsResult = [{ mass: 1 }, { mass: 2 }];
+    const cardsResult = [
+      { mass: 1, commonProperty: "mass" },
+      { mass: 2, commonProperty: "mass" },
+    ];
     cardServiceMock.getNewRandomCards.mockResolvedValue(cardsResult);
     await firstValueFrom(store.dispatch(new NextRoundAction()));
     const cards = store.selectSnapshot(GameState.getCards);

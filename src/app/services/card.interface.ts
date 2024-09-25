@@ -1,3 +1,5 @@
+import { CommonProperty } from "../components/game/game.constants";
+
 export interface ResourceTOC {
   message: string;
   total_records: number;
@@ -19,7 +21,7 @@ export interface Resource {
 }
 
 interface ResourceResult {
-  properties: PeopleProperties | StarhipsProperties;
+  properties: PeopleProperties & StarhipsProperties;
   description: string;
   _id: string;
   uid: string;
@@ -41,6 +43,10 @@ export interface PeopleProperties {
   url: string;
 }
 
+export interface PeoplePropertiesMapped extends PeopleProperties {
+  commonProperty: CommonProperty;
+}
+
 export interface StarhipsProperties {
   model: string;
   starship_class: string;
@@ -59,4 +65,8 @@ export interface StarhipsProperties {
   edited: string;
   name: string;
   url: string;
+}
+
+export interface StarhipsPropertiesMapped extends StarhipsProperties {
+  commonProperty: CommonProperty;
 }

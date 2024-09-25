@@ -26,7 +26,24 @@
   [score]="[]"
 ></app-game-counter>
 
-<pre>{{ cards$ | async | json }}</pre>
+@for (card of cards$ | async; track $index) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ card.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-chip-set>
+        @for (prop of card | keyvalue; track prop.key) {
+          @if (prop.key !== "name") {
+            <mat-chip [class.selected]="prop.key === card.commonProperty">
+              {{ prop.key }}: {{ prop.value }}
+            </mat-chip>
+          }
+        }
+      </mat-chip-set>
+    </mat-card-content>
+  </mat-card>
+}
 
 <!--<div>
   <mat-card>

@@ -44,7 +44,7 @@ export class CardService {
   getNewRandomCards(
     resourceType: ResourceType,
     availableResourcesForType: number,
-  ): Promise<(PeopleProperties | StarhipsProperties)[]> {
+  ): Promise<(PeopleProperties & StarhipsProperties)[]> {
     const requests = Array.from(new Array(NUMBER_OF_CARDS)).map(() => {
       return this.getNewRandomCard(
         resourceType,
@@ -62,7 +62,7 @@ export class CardService {
   private getNewRandomCard(
     resourceType: ResourceType,
     availableResourcesForType: number,
-  ): Observable<PeopleProperties | StarhipsProperties> {
+  ): Observable<PeopleProperties & StarhipsProperties> {
     const randomResourceId = random(1, availableResourcesForType);
     const url = `${SWAPI_URL}${resourceType}/${randomResourceId}`;
     return this.httpClient

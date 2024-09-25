@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
-import { ResourceType } from "./game.constants";
+import { CommonProperty, ResourceType } from "./game.constants";
 import { CardService } from "../../services/card.service";
 import {
-  PeopleProperties,
-  StarhipsProperties,
+  PeoplePropertiesMapped,
+  StarhipsPropertiesMapped,
 } from "../../services/card.interface";
 
 const stateName = "[Game]";
 
 export interface GameStateModel {
-  cards: (PeopleProperties | StarhipsProperties)[];
+  cards: (PeoplePropertiesMapped & StarhipsPropertiesMapped)[];
   round: number;
   resourceType: ResourceType;
   availableResources: { [key: string]: number };
@@ -61,7 +61,7 @@ export class GameState implements NgxsOnInit {
   @Selector()
   static getCards(
     state: GameStateModel,
-  ): (PeopleProperties | StarhipsProperties)[] {
+  ): (PeoplePropertiesMapped & StarhipsPropertiesMapped)[] {
     return state.cards;
   }
 
@@ -99,9 +99,13 @@ export class GameState implements NgxsOnInit {
       state.resourceType,
       state.availableResources[state.resourceType],
     );
+    const commonProperty =
+      state.resourceType === ResourceType.PEOPLE
+        ? CommonProperty.PEOPLE
+        : CommonProperty.STARSHIPS;
     ctx.patchState({
       round: state.round + 1,
-      cards,
+      cards: cards.map((c) => ({ ...c, commonProperty })),
     });
   }
 
