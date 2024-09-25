@@ -7,6 +7,7 @@ import {
   StarhipsPropertiesMapped,
 } from "../../services/card.interface";
 import { SetLoaderAction } from "../../app.state";
+import { max } from "lodash/fp";
 
 const stateName = "[Game]";
 
@@ -43,7 +44,7 @@ export class ChangeResourceTypeAction {
     round: 0,
     resourceType: ResourceType.PEOPLE,
     availableResources: {},
-    score: [],
+    score: [0, 0],
   },
 })
 @Injectable()
@@ -107,9 +108,23 @@ export class GameState implements NgxsOnInit {
       state.resourceType === ResourceType.PEOPLE
         ? CommonProperty.PEOPLE
         : CommonProperty.STARSHIPS;
+    const currentRoundScore = cards
+      .map((c) => {
+        return Number.isInteger(parseInt(c[commonProperty]))
+          ? parseInt(c[commonProperty])
+          : 0;
+      })
+      .map((cpValue, i, array) => {
+        const winningNumber = max(array);
+        return cpValue === winningNumber ? 1 : 0;
+      });
+    const totalScore = state.score.map(
+      (wins, i) => wins + currentRoundScore[i],
+    );
     ctx.patchState({
       round: state.round + 1,
       cards: cards.map((c) => ({ ...c, commonProperty })),
+      score: totalScore,
     });
     ctx.dispatch(new SetLoaderAction(false));
   }

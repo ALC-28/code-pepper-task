@@ -23,7 +23,7 @@
 </div>
 <app-game-counter
   [round]="currentRound$ | async"
-  [score]="[]"
+  [score]="currentScore$ | async"
 ></app-game-counter>
 
 @for (card of cards$ | async; track $index) {

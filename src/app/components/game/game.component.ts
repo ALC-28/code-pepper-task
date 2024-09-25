@@ -39,12 +39,14 @@ export class GameComponent {
   resourceTypes: string[];
   currentResourceType$: Observable<ResourceType>;
   cards$: Observable<(PeoplePropertiesMapped & StarhipsPropertiesMapped)[]>;
+  currentScore$: Observable<number[]>;
 
   constructor(private store: Store) {
     this.resourceTypes = Object.values(ResourceType);
     this.currentResourceType$ = this.store.select(GameState.getResourceType);
     this.currentRound$ = this.store.select(GameState.getRound);
     this.cards$ = this.store.select(GameState.getCards);
+    this.currentScore$ = this.store.select(GameState.getScore);
   }
 
   changeResourceType(resourceType: ResourceType): void {
